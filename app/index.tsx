@@ -1,10 +1,10 @@
 import Button from "@/components/buttons/Button";
-import ScreenLayout from "@/components/layouts/ScreenLayout";
+import MainLayout from "@/components/layouts/MainLayout";
 
 export default function Index() {
   return (
-    <ScreenLayout>
-      <Button />
-    </ScreenLayout>
+    <MainLayout>
+      <Button text="Press me" type="primary" size="large" />
+    </MainLayout>
   );
 }

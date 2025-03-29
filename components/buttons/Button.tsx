@@ -1,6 +1,6 @@
 import { Pressable, Text, StyleSheet, type PressableProps, ActivityIndicator } from "react-native";
 import { Colors } from "@/constants/Colors";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
 
 type Button = PressableProps & {
   type: "primary" | "secondary" | "tertiary";
@@ -8,14 +8,16 @@ type Button = PressableProps & {
   disabled?: boolean;
   onPress?: () => void;
   isLoading?: boolean;
+  text: string;
 };
 
 export default function Button({
   type = "primary",
   size = "large",
-  disabled = true,
+  disabled = false,
   onPress,
   isLoading = false,
+  text,
 }: Button) {
   const backgroundColor = Colors[type];
   const buttonSize = {
@@ -40,17 +42,15 @@ export default function Button({
 
   // Reanimated values
   const scale = useSharedValue(1);
-  const opacity = useSharedValue(1);
 
   // Define animated styles
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
-    opacity: opacity.value,
   }));
 
   return (
     <Pressable
-      onPressIn={() => (scale.value = withSpring(0.95))} // Shrink effect
+      onPressIn={() => (scale.value = withSpring(1.3))} // Shrink effect
       onPressOut={() => (scale.value = withSpring(1))} // Return to normal size
       style={[
         styles.button,
@@ -63,17 +63,11 @@ export default function Button({
       ]}
       onPress={disabled ? null : onPress}
     >
-      <Animated.View
-        style={[
-          styles.animatedContainer,
-          animatedStyle,
-          { opacity: withTiming(isLoading ? 0.5 : 1, { duration: 300 }) },
-        ]}
-      >
+      <Animated.View style={[styles.animatedContainer, animatedStyle]}>
         {isLoading ? (
           <ActivityIndicator size="small" color={Colors.light.background} />
         ) : (
-          <Text style={[styles.text, { fontSize: textSize[size] }]}>Button</Text>
+          <Text style={[styles.text, { fontSize: textSize[size] }]}>{text}</Text>
         )}
       </Animated.View>
     </Pressable>
