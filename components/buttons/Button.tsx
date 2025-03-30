@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { Pressable, Text, StyleSheet, type PressableProps, ActivityIndicator } from "react-native";
 import { Colors } from "@/constants/Colors";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from "react-native-reanimated";
 
 type Button = PressableProps & {
   type: "primary" | "secondary" | "tertiary";
@@ -42,18 +43,31 @@ export default function Button({
 
   // Reanimated values
   const scale = useSharedValue(1);
+  const width = useSharedValue(1);
+
+  useEffect(() => {
+    if (isLoading) {
+      width.value = withTiming(1, { duration: 5000 }); // Animate width over 5s
+    } else {
+      width.value = 0;
+    }
+  }, [isLoading]);
 
   // Define animated styles
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
+  const animatedWidth = useAnimatedStyle(() => ({
+    width: `${width.value * 100}%`,
+    backgroundColor: "rgba(255,255,255,0.2)",
+  }));
+
   return (
-    <Pressable
-      onPressIn={() => (scale.value = withSpring(1.3))} // Shrink effect
-      onPressOut={() => (scale.value = withSpring(1))} // Return to normal size
+    <Animated.View
       style={[
         styles.button,
+        !disabled && animatedStyle,
         {
           opacity: disabled ? 0.4 : 1,
           backgroundColor,
@@ -61,16 +75,21 @@ export default function Button({
           height: buttonSize[size].height,
         },
       ]}
-      onPress={disabled ? null : onPress}
     >
-      <Animated.View style={[styles.animatedContainer, animatedStyle]}>
+      <Pressable
+        onPressIn={() => (scale.value = withSpring(1.05))} // Shrink effect
+        onPressOut={() => (scale.value = withSpring(1))} // Return to normal size
+        style={[styles.animatedContainer]}
+        onPress={disabled ? null : onPress}
+      >
+        {isLoading && <Animated.View style={[styles.loadingOverlay, animatedWidth]} />}
         {isLoading ? (
           <ActivityIndicator size="small" color={Colors.light.background} />
         ) : (
           <Text style={[styles.text, { fontSize: textSize[size] }]}>{text}</Text>
         )}
-      </Animated.View>
-    </Pressable>
+      </Pressable>
+    </Animated.View>
   );
 }
 
@@ -92,6 +111,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    height: "100%",
+  },
+  loadingOverlay: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
     height: "100%",
   },
 });
