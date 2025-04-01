@@ -1,5 +1,22 @@
 import { ThemedView } from "../ThemedView";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Dimensions } from "react-native";
 
 export default function ScreenLayout({ children }: { children: React.ReactNode }) {
-  return <ThemedView style={{ height: "100%" }}>{children}</ThemedView>;
+  const { bottom } = useSafeAreaInsets();
+  const { height } = Dimensions.get("window");
+  const screenHeight = height - bottom - 10;
+  return (
+    <ThemedView
+      style={{
+        height: screenHeight,
+        width: "100%",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      {children}
+    </ThemedView>
+  );
 }

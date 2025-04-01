@@ -1,12 +1,12 @@
-import Button from "@/components/buttons/Button";
 import MainLayout from "@/components/layouts/MainLayout";
 import ScreenLayout from "@/components/layouts/ScreenLayout";
+import { Text } from "react-native";
 
-export default function HomePage() {
+export default function Notes() {
   return (
     <MainLayout>
       <ScreenLayout>
-        <Button text="Press me" type="primary" size="large" />
+        <Text>Notes</Text>
       </ScreenLayout>
     </MainLayout>
   );

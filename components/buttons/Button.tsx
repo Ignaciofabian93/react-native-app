@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { Pressable, Text, StyleSheet, type PressableProps, ActivityIndicator } from "react-native";
+import { Pressable, Text, StyleSheet, type PressableProps, ActivityIndicator, Dimensions } from "react-native";
 import { Colors } from "@/constants/Colors";
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from "react-native-reanimated";
 
 type Button = PressableProps & {
   type: "primary" | "secondary" | "tertiary";
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "full";
   disabled?: boolean;
   onPress?: () => void;
   isLoading?: boolean;
@@ -20,6 +20,7 @@ export default function Button({
   isLoading = false,
   text,
 }: Button) {
+  const { width } = Dimensions.get("window");
   const backgroundColor = Colors[type];
   const buttonSize = {
     small: {
@@ -34,22 +35,27 @@ export default function Button({
       height: 48,
       width: 160,
     },
+    full: {
+      height: 48,
+      width: width - 16,
+    },
   };
   const textSize = {
     small: 14,
     medium: 16,
     large: 18,
+    full: 18,
   };
 
   // Reanimated values
   const scale = useSharedValue(1);
-  const width = useSharedValue(1);
+  const buttonWidth = useSharedValue(1);
 
   useEffect(() => {
     if (isLoading) {
-      width.value = withTiming(1, { duration: 5000 }); // Animate width over 5s
+      buttonWidth.value = withTiming(1, { duration: 5000 }); // Animate buttonWidth over 5s
     } else {
-      width.value = 0;
+      buttonWidth.value = 0;
     }
   }, [isLoading]);
 
@@ -59,7 +65,7 @@ export default function Button({
   }));
 
   const animatedWidth = useAnimatedStyle(() => ({
-    width: `${width.value * 100}%`,
+    width: `${buttonWidth.value * 100}%`,
     backgroundColor: "rgba(255,255,255,0.2)",
   }));
 
