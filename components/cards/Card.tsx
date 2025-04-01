@@ -47,7 +47,7 @@ Card.Body = function CardBody() {
 const styles = StyleSheet.create({
   card: {
     width: "100%",
-    height: 200,
+    height: 180,
     borderRadius: 10,
     overflow: "hidden",
     flexDirection: "row",

@@ -5,6 +5,7 @@ import ScreenLayout from "@/components/layouts/ScreenLayout";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import Card from "@/components/cards/Card";
+import VerticalScroller from "@/components/layouts/VerticalScroller";
 
 export default function MyPets() {
   return (
@@ -14,7 +15,7 @@ export default function MyPets() {
           <View style={[styles.header]}>
             <ThemedText type="title">My Pets</ThemedText>
           </View>
-          <View style={[styles.content]}>
+          <VerticalScroller>
             <Card>
               <Card.Image />
               <Card.ContentWrapper>
@@ -36,7 +37,7 @@ export default function MyPets() {
                 <Card.Body />
               </Card.ContentWrapper>
             </Card>
-          </View>
+          </VerticalScroller>
           <View style={[styles.bottomSection]}>
             <Button text="Add Pet" type="primary" size="full" />
           </View>
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   },
   bottomSection: {
     width: "100%",
-    height: "20%",
+    height: "10%",
     justifyContent: "center",
     alignItems: "center",
     gap: 20,

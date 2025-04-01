@@ -14,6 +14,7 @@ export default function ScreenLayout({ children }: { children: React.ReactNode }
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
+        paddingBottom: 50,
       }}
     >
       {children}

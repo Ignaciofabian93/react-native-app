@@ -3,7 +3,7 @@ import { Tabs } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
 import { HapticTab } from "@/components/haptics/HapticTab";
-import { useBottomTabOverflow } from "@/components/tabBar/TabBarBackground";
+// import { useBottomTabOverflow } from "@/components/tabBar/TabBarBackground";
 import { Platform } from "react-native";
 import { IconSymbol } from "@/components/icons/IconSymbol";
 
@@ -16,7 +16,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarBackground: useBottomTabOverflow,
+        // tabBarBackground: useBottomTabOverflow,
         tabBarInactiveTintColor: Colors[colorScheme ?? "light"].tint,
         tabBarActiveBackgroundColor: Colors.tertiary,
         tabBarStyle: Platform.select({
