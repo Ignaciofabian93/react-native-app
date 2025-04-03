@@ -36,6 +36,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
+          headerShown: false,
           tabBarIcon: () => <IconSymbol size={28} name="house.fill" color={Colors[colorScheme ?? "light"].tint} />,
         }}
       />
@@ -43,13 +44,19 @@ export default function TabLayout() {
         name="notes"
         options={{
           title: "Notes",
+          headerShown: true,
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontSize: 20,
+            fontWeight: "bold",
+          },
           tabBarIcon: () => (
             <IconSymbol size={28} name="book.closed.fill" color={Colors[colorScheme ?? "light"].tint} />
           ),
         }}
       />
       <Tabs.Screen
-        name="my-pets"
+        name="pets"
         options={{
           title: "My Pets",
           tabBarIcon: () => <IconSymbol size={28} name="pawprint.fill" color={Colors[colorScheme ?? "light"].tint} />,

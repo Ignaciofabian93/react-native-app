@@ -2,21 +2,28 @@ import { StyleSheet, View } from "react-native";
 import Button from "@/components/buttons/Button";
 import MainLayout from "@/components/layouts/MainLayout";
 import ScreenLayout from "@/components/layouts/ScreenLayout";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import Card from "@/components/cards/Card";
 import VerticalScroller from "@/components/layouts/VerticalScroller";
+import { useRouter } from "expo-router";
 
 export default function MyPets() {
+  const router = useRouter();
+
+  const addPet = () => {
+    router.push({ pathname: "/(tabs)/pets/pet", params: { title: "New Pet" } });
+  };
+
+  const editPet = () => {
+    router.push({ pathname: "/(tabs)/pets/pet", params: { title: "Edit Pet" } });
+  };
+
   return (
     <MainLayout>
       <ScreenLayout>
         <ThemedView style={[styles.container]}>
-          <View style={[styles.header]}>
-            <ThemedText type="title">My Pets</ThemedText>
-          </View>
           <VerticalScroller>
-            <Card>
+            <Card onPress={editPet}>
               <Card.Image />
               <Card.ContentWrapper>
                 <Card.Header />
@@ -39,7 +46,7 @@ export default function MyPets() {
             </Card>
           </VerticalScroller>
           <View style={[styles.bottomSection]}>
-            <Button text="Add Pet" type="primary" size="full" />
+            <Button text="Add Pet" type="primary" size="full" onPress={addPet} />
           </View>
         </ThemedView>
       </ScreenLayout>
@@ -50,17 +57,11 @@ export default function MyPets() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "100%",
+    height: "88%",
     alignItems: "center",
     justifyContent: "space-between",
     gap: 10,
     paddingHorizontal: 8,
-  },
-  header: {
-    width: "100%",
-    height: "10%",
-    alignItems: "flex-start",
-    justifyContent: "center",
   },
   content: {
     width: "100%",
@@ -73,6 +74,5 @@ const styles = StyleSheet.create({
     height: "10%",
     justifyContent: "center",
     alignItems: "center",
-    gap: 20,
   },
 });

@@ -1,10 +1,26 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, type TouchableOpacityProps, View } from "react-native";
 import { ThemedView } from "../ThemedView";
 import { ThemedText } from "../ThemedText";
 import { image1 } from "@/constants/images";
 
-export default function Card({ children }: { children: React.ReactNode }) {
-  return <ThemedView style={[styles.card]}>{children}</ThemedView>;
+export default function Card({ children, onPress, ...rest }: { children: React.ReactNode } & TouchableOpacityProps) {
+  return (
+    <TouchableOpacity style={[styles.card]} onPress={onPress} {...rest} activeOpacity={0.9}>
+      <ThemedView
+        style={[
+          {
+            width: "100%",
+            height: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          },
+        ]}
+      >
+        {children}
+      </ThemedView>
+    </TouchableOpacity>
+  );
 }
 
 Card.ContentWrapper = function CardContentWrapper({ children }: { children: React.ReactNode }) {
@@ -50,9 +66,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 10,
     overflow: "hidden",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     elevation: 4,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
