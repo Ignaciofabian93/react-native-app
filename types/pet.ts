@@ -42,6 +42,7 @@ type MedicalHistory = {
 };
 
 export type Pet = {
+  id: number;
   name: string;
   breed: string;
   birthday: string;

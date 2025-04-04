@@ -6,6 +6,7 @@ export default function usePetForm() {
 
   const handlePet = () => {
     setPet({
+      id: 0,
       name: "",
       breed: "",
       birthday: "",
