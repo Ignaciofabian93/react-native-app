@@ -13,19 +13,9 @@ export default function ImageLoader({ showPhoto, photo, handleImage }: ImageLoad
   return (
     <View style={[styles.photo]}>
       {showPhoto ? (
-        <Image source={{ uri: `data:image/jpeg;base64,${photo}` }} style={{ width: width * 0.9, height: 200 }} />
+        <Image source={{ uri: `data:image/jpeg;base64,${photo}` }} style={{ width: width * 0.9, height: 300 }} />
       ) : (
-        <View
-          style={[
-            {
-              width: width * 0.9,
-              height: 300,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-            },
-          ]}
-        >
+        <View style={[styles.icons, { width: width * 0.9 }]}>
           <IconButton icon="image" showText text="Upload image" onPress={() => handleImage("pick")} />
           <IconButton icon="camera-alt" showText text="Take photo" onPress={() => handleImage("take")} />
         </View>
@@ -45,5 +35,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 30,
     overflow: "hidden",
+  },
+  icons: {
+    height: 300,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
 });

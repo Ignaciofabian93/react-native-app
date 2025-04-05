@@ -40,6 +40,26 @@ export default function PetLayout() {
           };
         }}
       />
+      <Stack.Screen
+        name="medical"
+        options={({ route }) => {
+          const params = route.params as Params;
+          return {
+            headerLeft: () => (
+              <Pressable>
+                <Text>Cancel</Text>
+              </Pressable>
+            ),
+            headerShown: true,
+            headerTitle: (params?.title as string) || "Medical Details",
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "bold",
+            },
+          };
+        }}
+      />
     </Stack>
   );
 }

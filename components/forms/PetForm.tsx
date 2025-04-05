@@ -8,11 +8,25 @@ import Screen from "../layouts/Screen";
 import usePetStore from "@/store/PetStore";
 import useImagePicker from "@/hooks/useImagePicker";
 import ImageLoader from "../imageLoader/ImageLoader";
+import { useRouter } from "expo-router";
 
 export default function PetForm() {
+  const router = useRouter();
   const { pet, handlePet } = usePetStore();
   const { pickImage, takePhoto } = useImagePicker();
   const [showPhoto, setShowPhoto] = useState<boolean>(false);
+
+  const addMedicalRecords = () => {
+    router.push({ pathname: "/(tabs)/pets/medical", params: { title: "Medical Details" } });
+  };
+
+  const editMedicalRecords = () => {
+    router.push({ pathname: "/(tabs)/pets/medical", params: { title: "Edit Medical Details" } });
+  };
+
+  const isDisabled = () => {
+    return pet.name === "" || pet.breed === "" || pet.birthday === "" || pet.weight === 0;
+  };
 
   const handleImage = async (fn: "pick" | "take") => {
     if (fn === "pick") {
@@ -37,12 +51,14 @@ export default function PetForm() {
     <Screen>
       <VerticalScroller contentContainerStyle={[{ paddingBottom: 100 }]}>
         <Input
+          key={"name"}
           placeholder="Name"
           label="Name"
           value={pet.name}
           onChangeText={(e) => handlePet({ key: "name", value: e })}
         />
         <Input
+          key={"breed"}
           placeholder="Breed"
           label="Breed"
           value={pet.breed}
@@ -50,6 +66,7 @@ export default function PetForm() {
         />
         <Calendar value={pet.birthday} onChange={handlePet} />
         <Input
+          key={"weight"}
           placeholder="Weight"
           label="Weight"
           keyboardType="decimal-pad"
@@ -59,7 +76,14 @@ export default function PetForm() {
         <ImageLoader showPhoto={showPhoto} handleImage={handleImage} photo={pet.photo} />
         <View style={[styles.bottomSection]}>
           <Button key={"save"} text="Save" type="primary" size="full" />
-          <Button key={"medical records"} text="Add Medical records" type="primary" size="full" disabled />
+          <Button
+            key={"medical records"}
+            text="Add Medical records"
+            type="primary"
+            size="full"
+            disabled={isDisabled()}
+            onPress={pet.medicalHistory ? editMedicalRecords : addMedicalRecords}
+          />
         </View>
       </VerticalScroller>
     </Screen>
