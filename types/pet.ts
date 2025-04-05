@@ -47,5 +47,6 @@ export type Pet = {
   breed: string;
   birthday: string;
   weight: number;
+  photo: string;
   medicalHistory?: MedicalHistory;
 };

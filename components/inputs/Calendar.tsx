@@ -5,20 +5,28 @@ import Input from "./Input";
 import { MaterialIcons } from "@expo/vector-icons";
 import useDimensions from "@/hooks/useDimensions";
 
-export default function Calendar() {
+type Calendar = {
+  value: string;
+  onChange: ({ key, value }: { key: string; value: string | number }) => void;
+};
+
+export default function Calendar({ value, onChange }: Calendar) {
   const { width } = useDimensions({ scope: "window" });
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
 
   const changeDate = (event: DateTimePickerEvent, selectedDate: Date | undefined) => {
     if (event.type === "dismissed") setShowCalendar(false);
-    setDate(selectedDate as Date);
-    setShowCalendar(false);
+    if (selectedDate) {
+      setDate(selectedDate as Date);
+      onChange({ key: "birthday", value: selectedDate.toLocaleDateString() });
+      setShowCalendar(false);
+    }
   };
 
   return (
     <View style={[styles.container, { width: width * 0.9 }]}>
-      <Input label="Birthday" editable={false} size="medium" value={date.toLocaleDateString()} />
+      <Input label="Birthday" editable={false} size="medium" value={value ?? date.toLocaleDateString()} />
       <Pressable onPress={() => setShowCalendar(true)} style={[styles.calendar]}>
         <MaterialIcons name="calendar-month" size={30} color="black" />
       </Pressable>

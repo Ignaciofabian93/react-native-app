@@ -5,23 +5,24 @@ export const defaultPet: Pet = {
   id: 0,
   name: "",
   breed: "",
-  birthday: "",
+  birthday: new Date().toLocaleDateString(),
   weight: 0,
+  photo: "",
 };
 
 type PetStore = {
   pets: Pet[];
   pet: Pet;
-  handlePet: (pet: Pet) => void;
+  handlePet: ({ key, value }: { key: string; value: string | number }) => void;
   addNewPet: (pet: Pet) => void;
   editPet: ({ id, pet }: { id: number; pet: Pet }) => void;
   removePet: (id: number) => void;
 };
 
-const useStore = create<PetStore>((set) => ({
+const usePetStore = create<PetStore>((set) => ({
   pets: [],
   pet: defaultPet,
-  handlePet: (pet: Pet) => set({ pet: pet }),
+  handlePet: ({ key, value }) => set((state) => ({ pet: { ...state.pet, [key]: value } })),
   addNewPet: (pet: Pet) => set((state) => ({ pets: [...state.pets, pet] })),
   editPet: ({ id, pet }: { id: number; pet: Pet }) =>
     set((state) => {
@@ -36,4 +37,4 @@ const useStore = create<PetStore>((set) => ({
   removePet: (id: number) => set((state) => ({ pets: state.pets.filter((p) => p.id !== id) })),
 }));
 
-export default useStore;
+export default usePetStore;
