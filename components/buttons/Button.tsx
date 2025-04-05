@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Pressable, Text, StyleSheet, type PressableProps, ActivityIndicator, Dimensions } from "react-native";
+import { Pressable, Text, StyleSheet, type PressableProps, ActivityIndicator } from "react-native";
 import { Colors } from "@/constants/Colors";
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from "react-native-reanimated";
+import useDimensions from "@/hooks/useDimensions";
 
 type Button = PressableProps & {
   type: "primary" | "secondary" | "tertiary";
@@ -20,7 +21,7 @@ export default function Button({
   isLoading = false,
   text,
 }: Button) {
-  const { width } = Dimensions.get("window");
+  const { width } = useDimensions({ scope: "window" });
   const backgroundColor = Colors[type];
   const buttonSize = {
     small: {
@@ -37,7 +38,7 @@ export default function Button({
     },
     full: {
       height: 48,
-      width: width - 16,
+      width: width * 0.9,
     },
   };
   const textSize = {
@@ -65,7 +66,7 @@ export default function Button({
   }));
 
   const animatedWidth = useAnimatedStyle(() => ({
-    width: `${buttonWidth.value * 100}%`,
+    width: `${buttonWidth.value * 95}%`,
     backgroundColor: "rgba(255,255,255,0.2)",
   }));
 
@@ -83,7 +84,7 @@ export default function Button({
       ]}
     >
       <Pressable
-        onPressIn={() => (scale.value = withSpring(1.05))} // Shrink effect
+        onPressIn={() => (scale.value = withSpring(1.03))} // Shrink effect
         onPressOut={() => (scale.value = withSpring(1))} // Return to normal size
         style={[styles.animatedContainer]}
         onPress={disabled ? null : onPress}
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
     minWidth: 80,
     height: 56,
     marginHorizontal: 4,
+    marginVertical: 8,
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",

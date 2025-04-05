@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { Pressable, Text } from "react-native";
 
 type Params = {
   title?: string;
@@ -24,6 +25,11 @@ export default function PetLayout() {
         options={({ route }) => {
           const params = route.params as Params;
           return {
+            headerLeft: () => (
+              <Pressable>
+                <Text>Cancel</Text>
+              </Pressable>
+            ),
             headerShown: true,
             headerTitle: (params?.title as string) || "Pet Details",
             headerTitleAlign: "center",

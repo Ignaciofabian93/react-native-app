@@ -1,5 +1,6 @@
-import { TextInput, type TextInputProps, View, StyleSheet, Dimensions } from "react-native";
+import { TextInput, type TextInputProps, View, StyleSheet } from "react-native";
 import { ThemedText } from "../ThemedText";
+import useDimensions from "@/hooks/useDimensions";
 
 type InputProps = TextInputProps & {
   label: string;
@@ -17,17 +18,17 @@ export default function Input({
   size = "full",
   ...rest
 }: InputProps) {
-  const { width } = Dimensions.get("window");
+  const { width } = useDimensions({ scope: "window" });
 
   const inputSize = {
     small: { width: width * 0.4 },
     medium: { width: width * 0.6 },
     large: { width: width * 0.8 },
-    full: { width: width - 32 },
+    full: { width: width * 0.9 },
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper]}>
       <ThemedText type="defaultSemiBold" style={styles.label}>
         {label}
       </ThemedText>
@@ -46,7 +47,6 @@ export default function Input({
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: "100%",
     height: "auto",
     alignItems: "flex-start",
     justifyContent: "center",

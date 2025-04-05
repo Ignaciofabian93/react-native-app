@@ -3,35 +3,31 @@ import Input from "../inputs/Input";
 import Calendar from "../inputs/Calendar";
 import VerticalScroller from "../layouts/VerticalScroller";
 import Button from "../buttons/Button";
+import Screen from "../layouts/Screen";
 
 export default function PetForm() {
   return (
-    <View style={[styles.container]}>
-      <VerticalScroller>
+    <Screen>
+      <VerticalScroller contentContainerStyle={[{ paddingBottom: 100 }]}>
         <Input placeholder="Name" label="Name" />
         <Input placeholder="Breed" label="Breed" />
         <Calendar />
         <Input placeholder="Weight" label="Weight" keyboardType="decimal-pad" />
         <View style={[styles.bottomSection]}>
-          <Button text="Save" type="primary" size="full" />
+          <Button key={"save"} text="Save" type="primary" size="full" />
+          <Button key={"medical records"} text="Add Medical records" type="primary" size="full" disabled />
         </View>
       </VerticalScroller>
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-  },
   bottomSection: {
     width: "100%",
-    height: "10%",
+    height: "20%",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 30,
   },
 });
